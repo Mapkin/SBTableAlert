@@ -117,11 +117,6 @@
 	return self;
 }
 
-- (void)dealloc {
-	[self setTitle:nil];
-	[super dealloc];
-}
-
 - (void)drawRect:(CGRect)rect {
 	[super drawRect:rect];
 	
@@ -162,7 +157,6 @@
 		[_cellBackgroundView setBackgroundColor:[UIColor clearColor]];
 		[_cellBackgroundView setAutoresizingMask:(UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight)];
 		[self setBackgroundView:_cellBackgroundView];
-		[_cellBackgroundView release];
 		
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(setNeedsDisplay) name:UIApplicationDidChangeStatusBarOrientationNotification object:nil];
 	}
@@ -171,7 +165,6 @@
 
 - (void)dealloc {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 - (void)layoutSubviews {
@@ -246,7 +239,7 @@
 
 - (id)initWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelTitle messageFormat:(NSString *)format args:(va_list)args {
 	if ((self = [super init])) {
-		NSString *message = format ? [[[NSString alloc] initWithFormat:format arguments:args] autorelease] : nil;
+		NSString *message = format ? [[NSString alloc] initWithFormat:format arguments:args] : nil;
 		
 		_alertView = [[UIAlertView alloc] initWithTitle:title message:message delegate:self cancelButtonTitle:cancelTitle otherButtonTitles:nil];
 		
@@ -288,19 +281,12 @@
 }
 
 + (id)alertWithTitle:(NSString *)title cancelButtonTitle:(NSString *)cancelTitle messageFormat:(NSString *)message, ... {
-	return [[[SBTableAlert alloc] initWithTitle:title cancelButtonTitle:cancelTitle messageFormat:message] autorelease];
+	return [[SBTableAlert alloc] initWithTitle:title cancelButtonTitle:cancelTitle messageFormat:message];
 }
 
 - (void)dealloc {
-    _alertView.delegate = nil;
-	[self setTableView:nil];
-	[self setView:nil];
-	
-	[self setShadow:nil];
-	
+    [_alertView setDelegate:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	
-	[super dealloc];
 }
 
 #pragma mark -
@@ -437,7 +423,7 @@
 		if (!title)
 			return nil;
 		
-		return [[[SBTableViewSectionHeaderView alloc] initWithTitle:title] autorelease];
+		return [[SBTableViewSectionHeaderView alloc] initWithTitle:title];
 	}
 
 	return nil;

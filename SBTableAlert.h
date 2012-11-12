@@ -86,12 +86,12 @@ typedef enum {
 
 @interface SBTableAlert : NSObject <UITableViewDelegate, UITableViewDataSource, UIAlertViewDelegate> {}
 
-@property (nonatomic, retain) UIAlertView *view;
-@property (nonatomic, retain) UITableView *tableView;
-@property (nonatomic) SBTableAlertType type;
-@property (nonatomic) SBTableAlertStyle style;
-@property (nonatomic) NSInteger maximumVisibleRows; // default 4, (nice in both orientations w/ rowHeigh == 40), if -1 is passed it will display the whole table.
-@property (nonatomic) CGFloat rowHeight; // default 40, (default in UITableView == 44)
+@property (nonatomic, strong) UIAlertView *view;
+@property (nonatomic, strong) UITableView *tableView;
+@property (nonatomic, assign) SBTableAlertType type;
+@property (nonatomic, assign) SBTableAlertStyle style;
+@property (nonatomic, assign) NSInteger maximumVisibleRows; // default 4, (nice in both orientations w/ rowHeigh == 40), if -1 is passed it will display the whole table.
+@property (nonatomic, assign) CGFloat rowHeight; // default 40, (default in UITableView == 44)
 
 @property (nonatomic, assign) id <SBTableAlertDelegate> delegate;
 @property (nonatomic, assign) id <SBTableAlertDataSource> dataSource;
